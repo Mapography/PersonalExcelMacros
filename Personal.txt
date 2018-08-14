@@ -1,0 +1,38 @@
+Attribute VB_Name = "Personal"
+Sub CenterAcrossColumns()
+    With Selection
+        .HorizontalAlignment = xlCenterAcrossSelection
+        .MergeCells = False
+    End With
+End Sub
+
+Sub ShowHiddenNamedRanges()
+Dim xName As Name
+    For Each xName In Application.ActiveWorkbook.Names
+        xName.Visible = True
+    Next
+End Sub
+
+Function GetCombination(CoinsRange As Range, SumCellId As Double) As String
+'=GetCombination(Range, Target)
+    Dim xStr As String
+    Dim xSum As Double
+    Dim xCell As Range
+    xSum = SumCellId
+    For Each xCell In CoinsRange
+        If Not (xSum / xCell < 1) Then
+            xStr = xStr & Int(xSum / xCell) & " of " & xCell & "  "
+            xSum = xSum - (Int(xSum / xCell)) * xCell
+        End If
+    Next
+    GetCombination = xStr
+End Function
+
+Sub Disable_Iter()
+    Application.Iteration = False
+End Sub
+
+Sub SetStyle_Comma_NoDecimals()
+    Selection.Style = "Comma"
+    Selection.NumberFormat = "_(* #,##0_);_(* (#,##0);_(* ""-""??_);_(@_)"
+End Sub
